@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Banned Books in the United States, a Visual Analysis - Tara Pandey</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:     #f5f2eb;
+      --ink:    #0e0e0e;
+      --rule:   #d9d5cc;
+      --muted:  #8a8577;
+      --accent: #c84b2f;
+      --f-serif: 'DM Serif Display', serif;
+      --f-sans:  'DM Sans', sans-serif;
+      --f-mono:  'DM Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--f-sans);
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    nav {
+      border-bottom: 1px solid var(--rule);
+      padding: 1.5rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .nav-back {
+      font-family: var(--f-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--accent); }
+    .nav-name {
+      font-family: var(--f-serif);
+      font-size: 1.1rem;
+      text-decoration: none;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+    }
+    .nav-name em { font-style: italic; color: var(--accent); }
+
+    .project-header {
+      padding: 3.5rem 4rem 2.5rem;
+      border-bottom: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 2rem;
+      align-items: end;
+    }
+    .project-label {
+      font-family: var(--f-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-family: var(--f-serif);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+    .project-meta-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      align-items: flex-end;
+      padding-bottom: 0.25rem;
+    }
+    .meta-item {
+      font-family: var(--f-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      text-align: right;
+    }
+    .meta-item strong {
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    .viz-section {
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .viz-placeholder {
+      width: 100%;
+      height: 520px;
+      background: #e8e4db;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-family: var(--f-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-align: center;
+      line-height: 2;
+    }
+
+    .project-body {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .project-write-up {
+      padding: 3rem 3rem 3rem 4rem;
+      border-right: 1px solid var(--rule);
+    }
+
+    .project-write-up h2 {
+      font-family: var(--f-serif);
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.01em;
+    }
+
+    .project-write-up p {
+      font-size: 0.9rem;
+      line-height: 1.8;
+      color: #3a3832;
+      margin-bottom: 1.5rem;
+      max-width: 60ch;
+    }
+
+    .project-write-up p:last-child { margin-bottom: 0; }
+
+    .project-sidebar {
+      padding: 3rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .sidebar-block h4 {
+      font-family: var(--f-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .sidebar-block p,
+    .sidebar-block a {
+      font-size: 0.82rem;
+      color: #3a3832;
+      line-height: 1.7;
+      text-decoration: none;
+    }
+
+    .sidebar-block a {
+      color: var(--accent);
+      display: inline-block;
+      font-family: var(--f-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      transition: opacity 0.2s;
+    }
+    .sidebar-block a:hover { opacity: 0.7; }
+
+    .tag-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag {
+      font-family: var(--f-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--rule);
+      padding: 0.2rem 0.55rem;
+      border-radius: 2px;
+    }
+
+    footer {
+      margin-top: auto;
+      border-top: 1px solid var(--rule);
+      padding: 1.5rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--f-mono);
+      font-size: 0.65rem;
+      color: var(--muted);
+    }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+
+    @media (max-width: 768px) {
+      nav, .project-header, .project-write-up, .project-sidebar, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .project-header { grid-template-columns: 1fr; }
+      .project-meta-grid { align-items: flex-start; }
+      .project-body { grid-template-columns: 1fr; }
+      .project-write-up { border-right: none; border-bottom: 1px solid var(--rule); padding: 2rem 1.5rem; }
+      .viz-placeholder { height: 300px; }
+      footer { flex-direction: column; gap: 0.5rem; }
+    }
+
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html" class="nav-back">← Back to work</a>
+  <a href="../index.html" class="nav-name">Tara <em>Pandey</em></a> 
+</nav>
+
+<div class="project-header">
+  <div>
+    <div class="project-label">SQL final Project</div>
+    <h1>Exploratory Analysis of Book Bans Across the USA</h1>
+  </div>
+  <div class="project-meta-grid">
+    <div class="meta-item"><strong>Tool</strong> — SQL/Looker Studio</div> 
+    <div class="meta-item"><strong>Year</strong> — 2025</div>
+  </div>
+
+</div>
+
+<div class="viz-section">
+
+   <iframe width="600" height="450"
+    src="https://lookerstudio.google.com/embed/reporting/abe18cbb-0687-4a0a-9311-313996bf24b9/page/pqiiFd"
+    frameborder="0"
+    style="border:0"
+    allowfullscreen
+    sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+</div>
+
+<div class="project-body">
+
+  <div class="project-write-up">
+
+    <h2>Overview</h2>
+    <p>
+      This project was an exploratory study on book bans throughout the US. 
+      All of the data analysis was conducted in SQL with the help of Looker Studio 
+      to make interactive and visually appealing graphics. 
+
+    </p>
+
+    <h2>What I found</h2>
+    <p>
+      We knew that the rate of book bans had been rising in recent years and were curious to 
+      see what other trends followed. We noticed a lot of political trends in our data, for example,
+      the increase in book bans likely due to the sentiment towards banned books from the Trump 
+      administration. There was a correlation with the top states in book bans and voting Republican 
+      in the 2024 election.
+    </p>
+
+    <h2>Process</h2>
+    <p>
+      After heavily cleaning the data to match the date format, only include the groups we were 
+      interested in and fix other small errors, I merged the book ban data with the other data 
+      sources in separate SQL tables. After this, I manually small groupings for age, race, etc.
+
+      Once the data had been prepared, I did small calculations to find diversity in a states by 
+      age, race, and political measures. These findings were visually displayed through Looker 
+      Studio in the form of bar charts, heat maps, and combination graphics.
+
+    </p>
+
+  </div>
+
+  <div class="project-sidebar">
+
+    <div class="sidebar-block">
+      <h4>Tools used</h4>
+      <div class="tag-list">
+        <span class="tag">SQL</span>
+        <span class="tag">Looker Studio</span>
+      </div>
+    </div>
+
+    <div class="sidebar-block">
+      <h4>Data source</h4>
+      <p>
+        WHERE DID THE DATA COME FROM?<br>
+        PEN America's Index of School Book Bans.
+        MIT Election Data + Science Lab County Presidential Election Returns 2000-2024
+        United States Census Bureau Racial Diversity Data.
+        United States Census Bureau Age and Sex Data.
+
+      </p>
+    </div>
+
+    <div class="sidebar-block">
+      <h4>Links</h4>
+      <a href="chart.html" target="_blank">Open chart fullscreen ↗</a>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <span>© 2026 TARA PANDEY</span>
+  <span>
+    <a href="https://github.com/tarapandey">GitHub</a> ·
+    <a href="https://www.linkedin.com/in/tara-pandey/">LinkedIn</a> ·
+  </span>
+</footer>
+
+</body>
+</html>

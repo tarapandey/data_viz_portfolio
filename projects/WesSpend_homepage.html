@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WesSpend User Statistics Page — Tara Pandey</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:     #f5f2eb;
+      --ink:    #0e0e0e;
+      --rule:   #d9d5cc;
+      --muted:  #8a8577;
+      --accent: #c84b2f; 
+      --f-serif: 'DM Serif Display', serif;
+      --f-sans:  'DM Sans', sans-serif;
+      --f-mono:  'DM Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--f-sans);
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    nav {
+      border-bottom: 1px solid var(--rule);
+      padding: 1.5rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .nav-back {
+      font-family: var(--f-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--accent); }
+    .nav-name {
+      font-family: var(--f-serif);
+      font-size: 1.1rem;
+      text-decoration: none;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+    }
+    .nav-name em { font-style: italic; color: var(--accent); }
+
+    .project-header {
+      padding: 3.5rem 4rem 2.5rem;
+      border-bottom: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 2rem;
+      align-items: end;
+    }
+    .project-label {
+      font-family: var(--f-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-family: var(--f-serif);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+    .project-meta-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      align-items: flex-end;
+      padding-bottom: 0.25rem;
+    }
+    .meta-item {
+      font-family: var(--f-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      text-align: right;
+    }
+    .meta-item strong {
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    .viz-section {
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .viz-placeholder {
+      width: 100%;
+      height: 520px;
+      background: #e8e4db;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-family: var(--f-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-align: center;
+      line-height: 2;
+    }
+
+    .project-body {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .project-write-up {
+      padding: 3rem 3rem 3rem 4rem;
+      border-right: 1px solid var(--rule);
+    }
+
+    .project-write-up h2 {
+      font-family: var(--f-serif);
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.01em;
+    }
+
+    .project-write-up p {
+      font-size: 0.9rem;
+      line-height: 1.8;
+      color: #3a3832;
+      margin-bottom: 1.5rem;
+      max-width: 60ch;
+    }
+
+    .project-write-up p:last-child { margin-bottom: 0; }
+
+    .project-sidebar {
+      padding: 3rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .sidebar-block h4 {
+      font-family: var(--f-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .sidebar-block p,
+    .sidebar-block a {
+      font-size: 0.82rem;
+      color: #3a3832;
+      line-height: 1.7;
+      text-decoration: none;
+    }
+
+    .sidebar-block a {
+      color: var(--accent);
+      display: inline-block;
+      font-family: var(--f-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      transition: opacity 0.2s;
+    }
+    .sidebar-block a:hover { opacity: 0.7; }
+
+    .tag-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag {
+      font-family: var(--f-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--rule);
+      padding: 0.2rem 0.55rem;
+      border-radius: 2px;
+    }
+
+    footer {
+      margin-top: auto;
+      border-top: 1px solid var(--rule);
+      padding: 1.5rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--f-mono);
+      font-size: 0.65rem;
+      color: var(--muted);
+    }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+
+    @media (max-width: 768px) {
+      nav, .project-header, .project-write-up, .project-sidebar, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .project-header { grid-template-columns: 1fr; }
+      .project-meta-grid { align-items: flex-start; }
+      .project-body { grid-template-columns: 1fr; }
+      .project-write-up { border-right: none; border-bottom: 1px solid var(--rule); padding: 2rem 1.5rem; }
+      .viz-placeholder { height: 300px; }
+      footer { flex-direction: column; gap: 0.5rem; }
+    }
+
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html" class="nav-back">← Back to work</a>
+  <a href="../index.html" class="nav-name">Tara <em>Pandey</em></a> 
+</nav>
+
+<div class="project-header">
+  <div>
+    <div class="project-label">Final_QAC_Apprenticeship_Poster</div> 
+    <h1>Exploratory Analysis on Brazilian Parliamentarian's and Mentions of Slavery</h1>
+  </div>
+  <div class="project-meta-grid">
+    <div class="meta-item"><strong>Tool</strong> — Python · R</div> 
+    <div class="meta-item"><strong>Year</strong> — 2024</div>     
+  </div>
+
+</div>
+
+<div class="viz-section">
+
+    <iframe src="projects/personal_stats.html"
+        style="width:100%; height:320px; border:0; display:block;">
+    </iframe>
+</div>
+
+<div class="project-body">
+
+  <div class="project-write-up">
+
+    <h2>Overview</h2>
+    <p>
+      This is a part of WesSpend, a software development project where I made a fully functioning 
+      cross-platform, full-stack application for student meal plan budgeting. Part of this page included 
+      a personal statistics page so that users could see their spending and how on track they were with 
+      their budget.
+
+    </p>
+
+    <h2>What I found</h2>
+    <p>
+      I chose these graphics in order to display where users were mostly spending meal points, 
+      their cumulative spending over the month, and how on track they were with their daily 
+      budget every day. A pie chart worked the best for the first graphic as it was quite easy 
+      to see where the money was being spent and to interact with the chart. Combination graphics 
+      worked best for the following graphics, because it was easy to compare them to a budget that 
+      the user could set themselves. This was a demo and didn't include any user data to test on, 
+      so there weren't any significant findings.
+
+    <h2>Process</h2>
+    <p>
+      This app implemented the Google Charts API to display interactive visualizations. The frontend 
+      of the app was built in HTML/CSS and JavaScript, so it was implemented through JavaScript and 
+      corresponds to data given through the PHP backend. It uses a RESTful API to update the data 
+      securely from changes in user input.
+
+    </p>
+
+  </div>
+
+  <div class="project-sidebar">
+
+    <div class="sidebar-block">
+      <h4>Tools used</h4>
+      <div class="tag-list">
+        <span class="tag">JavaScript</span>
+        <span class="tag">HTML/CSS</span>
+      </div>
+    </div>
+
+
+    <div class="sidebar-block">
+      <h4>Links</h4>
+      <a href="https://github.com/Dalton2727/dalton2727.github.io" target="_blank">View code on GitHub ↗</a><br><br>
+      <a href="personal_stats.html" target="_blank">Open chart fullscreen ↗</a>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <span>© 2026 TARA PANDEY</span>
+  <span>
+    <a href="https://github.com/tarapandey">GitHub</a> ·
+    <a href="https://www.linkedin.com/in/tara-pandey/">LinkedIn</a> ·
+  </span>
+</footer>
+
+</body>
+</html>

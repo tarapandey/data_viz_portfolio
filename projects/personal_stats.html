@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personal Stats - Frontend Demo</title>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<style>
+    body { background: #f0f0f0; font-family: Arial, sans-serif; margin: 0; padding: 0; }
+    #navbar ul { list-style: none; display: flex; gap: 15px; padding: 10px; background: #eee; margin: 0; flex-wrap: wrap; }
+    #navbar li { display: inline; }
+    #navbar a { text-decoration: none; color: #333; }
+    h1 { text-align: center; margin-top: 20px; }
+    .chart-container { text-align: center; margin: 20px auto; }
+</style>
+</head>
+<body>
+<div id="navbar" class="light">
+    <ul>
+        <li>User: DemoUser</li>
+        <li><a href="#">Reviews</a></li>
+        <li><a href="#">Ratings</a></li>
+        <li><a href="#">Edit</a></li>
+        <li><a href="#">Comment</a></li>
+        <li><a href="#">Write</a></li>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Log Out</a></li>
+    </ul>
+</div>
+
+<h1>Personal Stats</h1>
+
+<div class="chart-container">
+    <h2>Budget Breakdown By Location</h2>
+    <div id="donutchart" style="width: 900px; height: 500px;"></div>
+</div>
+
+<div class="chart-container">
+    <h2>Cumulative Spending Over Time</h2>
+    <div id="curve_chart" style="width: 900px; height: 500px;"></div>
+</div>
+
+<div class="chart-container">
+    <h2>Daily Spending vs Budget Target</h2>
+    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+</div>
+
+<script>
+// Mock data
+const userBudget = 500;
+const daysInMonth = 30;
+
+// Location spending
+const locationData = [
+    ['Location', 'Amount Spent'],
+    ['WesWings', 120],
+    ['RBC', 80],
+    ['Pi Cafe', 50]
+];
+
+// Cumulative spending data
+const cumulativeData = [['Day', 'Cumulative Spending', 'Budget Limit']];
+let cumulativeTotal = 0;
+const dailySpending = Array.from({length: daysInMonth}, () => Math.floor(Math.random()*20));
+for(let day=1; day<=daysInMonth; day++){
+    cumulativeTotal += dailySpending[day-1];
+    cumulativeData.push([day, cumulativeTotal, userBudget]);
+}
+
+// Daily spending vs budget target
+const dailyBudget = userBudget / daysInMonth;
+const dailyData = [['Day', 'Daily Spending', 'Daily Budget Target']];
+for(let day=1; day<=daysInMonth; day++){
+    dailyData.push([day, dailySpending[day-1], dailyBudget]);
+}
+
+// Draw charts using Google Charts
+google.charts.load('current', {packages:['corechart']});
+google.charts.setOnLoadCallback(drawCharts);
+
+function drawCharts(){
+    // Donut chart
+    const dataLocation = google.visualization.arrayToDataTable(locationData);
+    const optionsLocation = {
+        title: 'Budget Breakdown By Location',
+        is3D: true,
+        pieSliceText: 'percentage',
+        chartArea: {width:'80%', height:'80%'},
+        backgroundColor: '#f0f0f0',
+        legend: {position:'right'}
+    };
+    new google.visualization.PieChart(document.getElementById('donutchart')).draw(dataLocation, optionsLocation);
+
+    // Cumulative line chart
+    const dataCumulative = google.visualization.arrayToDataTable(cumulativeData);
+    const optionsCumulative = {
+        title: 'Cumulative Spending Over Time',
+        hAxis: {title: 'Day of Month', gridlines:{count:daysInMonth}},
+        vAxis: {title: 'Total Spent'},
+        series: {0:{pointSize:5}, 1:{lineDashStyle:[4,4], color:'red', pointSize:0}},
+        legend: {position:'bottom'},
+        backgroundColor:'#f0f0f0'
+    };
+    new google.visualization.LineChart(document.getElementById('curve_chart')).draw(dataCumulative, optionsCumulative);
+
+    // Daily spending vs budget
+    const dataDaily = google.visualization.arrayToDataTable(dailyData);
+    const optionsDaily = {
+        title: 'Daily Spending vs Budget Target',
+        seriesType: 'bars',
+        series: {0:{color:'#4285F4'}, 1:{type:'line', color:'red', lineDashStyle:[4,4], pointSize:0}},
+        vAxis: {title:'Amount', minValue:0},
+        hAxis: {title:'Day of Month', gridlines:{count:daysInMonth}},
+        legend: {position:'bottom'},
+        backgroundColor:'#f0f0f0'
+    };
+    new google.visualization.ComboChart(document.getElementById('chart_div')).draw(dataDaily, optionsDaily);
+}
+</script>
+
+</body>
+</html>
