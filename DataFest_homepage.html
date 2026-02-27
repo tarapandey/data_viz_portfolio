@@ -225,12 +225,12 @@
 
 <div class="project-header">
   <div>
-    <div class="project-label">Final_QAC_Apprenticeship_Poster</div>  
-    <h1>Exploratory Analysis on Brazilian Parliamentarian's and Mentions of Slavery</h1>
+    <div class="project-label">DataFest2024</div>  
+    <h1>Data-based Recommendations for CourseKata on retaining engagement.</h1>
   </div>
   <div class="project-meta-grid">
-    <div class="meta-item"><strong>Tool</strong> — R Studio</div>  
-    <div class="meta-item"><strong>Year</strong> — 2025</div>
+    <div class="meta-item"><strong>Tool</strong> — Python</div>  
+    <div class="meta-item"><strong>Year</strong> — 2024</div>
   </div>
 
 </div>
@@ -245,18 +245,17 @@
   margin-top: 50px;
   margin-left: 50px;
   margin-right: 50px;
-  grid-template-columns:1fr 1fr;
+  grid-template-columns:1fr 1fr 1fr;
   gap:1px;
   background:#d9d5cc;
   border-top:1px solid #d9d5cc;">
-   <img src="GIS_Slavery_Mentions.png" alt="Detail view 1"
+   <img src="DATA FEST 2024/9192087f-2.png" alt="Detail view 1"
          style="width:100%; height:420px; object-fit:cover; display:block;">
-    <img src="blue_and_red_stacked_bar.png" alt="Detail view 2"
+    <img src="DATA FEST 2024/9192087f-3.png" alt="Detail view 2"
          style="width:100%; height:420px; object-fit:cover; display:block;">
-    <img src="slavery_word_timeline.png" alt="Detail view 3"
+    <img src="DATA FEST 2024/9192087f-4.png" alt="Detail view 3"
          style="width:100%; height:340px; object-fit:cover; display:block;">
-    <img src="top_20_topics.png" alt="Detail view 4"
-         style="width:100%; height:340px; object-fit:cover; display:block;">
+
   </div>
 
 <div class="project-body">
@@ -265,33 +264,27 @@
 
     <h2>Overview</h2>
     <p>
-      This project is the culmination of my work in the Wesleyan Hazel Quantiative
-      Analysis Center Summer Data Apprenticeship Program. With professor Francois Seyler,
-      I textually analyzed brazilian parliamentary documents for mentions of slavery and
-      related topics. This was an exploratory research study on the perspectives of
-      these parliamentarians, through the lens of identity economics.  
+      When I competed in ASA DataFest 2024, my team and I had 48 hours to analyze a large, raw 
+      dataset and provide the client, CourseKata, with actionable recommendations on how to improve 
+      their online textbook platform. We focused on how to retain engagement for users. 
 
     </p>
 
     <h2>What I found</h2>
     <p>
-      In this exploratory analysis, our findings indicated similarities between mentions 
-      of slavery and related words and the prevalence of two topics found to be similar with
-      our pattern matching. Additionally, we were able to find statistically significant
-      contributors to slavery mentions by a parliamentarian's district, such as share of slaves.
-    </p>
+      We found that often users would disengage with the material when chapters were excessively 
+      long. We had similair findings with the length of videos within the textbook. Breaking up 
+      chapters into smaller sections could also help with this. We also found that assesment types 
+      had an impact on the outcome, with multiple choice questions not drawing much engagement 
+      while plaintext questionnaires would. 
 
     <h2>Process</h2>
     <p>
-      Once the text data was gathered through the GPT 4o-mini LLM, I generated topics that describe 
-      the data, through the Structured Topic Modelling package in R. The topics were then mapped 
-      back to the legislators and from there, the top 20 parliamentarians with the largest topic 
-      share of topic 14 (labelled as slavery) were displayed.
-       
-      For the GIS map I believed the color scale for count of "slavery words" was most 
-      effective and was still visible alongside the share of slave marked in blue dots. 
-      I chose this form of bar graph because it highlights topics 13 and 14 very clearly.
-      As for the line graph, I wanted to clearly and concisely display the mentions over time.
+      I conducted my analysis through Python packages: Pandas, Seaborn, and Matplotlib. The dataset 
+      contained a lot of relevant data, but we chose to focus on these interests because we believed 
+      it would be the most helpful for our clients, who were looking to reach a wide audience and 
+      retain their engagement. We ended up securing an award for the best Data-driven Recommendation 
+      for this presentation
 
     </p>
 
@@ -302,9 +295,10 @@
     <div class="sidebar-block">
       <h4>Tools used</h4>
       <div class="tag-list">
-        <span class="tag">R</span>
-        <span class="tag">GIS</span>
         <span class="tag">Python</span>
+        <span class="tag">Pandas</span>
+        <span class="tag">Seaborn</span>
+        <span class="tag">Matplotlib</span>
       </div>
     </div>
 
@@ -312,7 +306,7 @@
       <h4>Data source</h4>
       <p>
         WHERE DID THE DATA COME FROM?<br>
-        Câmara dos Deputados parliamentary records from 1881-1882.
+        ASA DataFest 2024 provided the data from CourseKata.
       </p>
     </div>
 
